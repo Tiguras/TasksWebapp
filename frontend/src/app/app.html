@@ -1,0 +1,85 @@
+<h1>Task Board</h1>
+
+<div class="add-form">
+  <input [(ngModel)]="newTitle" placeholder="Title (required)" />
+  <input [(ngModel)]="newDescription" placeholder="Description (optional)" />
+  <input [(ngModel)]="newDueDate" type="date" />
+  <button (click)="addTask()" [disabled]="adding">Add</button>
+</div>
+
+<div class="board">
+  <div class="column">
+    <h2>Pending</h2>
+    <div
+      cdkDropList
+      #pendingList="cdkDropList"
+      [cdkDropListData]="pending()"
+      [cdkDropListConnectedTo]="[inProgressList, completedList]"
+      class="card-list"
+      (cdkDropListDropped)="drop($event, 'Pending')"
+    >
+      @for (task of pending(); track task.id) {
+        <div class="card" cdkDrag>
+          <button class="delete-btn" (click)="deleteTask(task, 'Pending')">&times;</button>
+          <strong>{{ task.title }}</strong>
+          @if (task.description) {
+            <span class="description">{{ task.description }}</span>
+          }
+          @if (task.dueDate) {
+            <span class="due-date">Due: {{ task.dueDate | date:'mediumDate' }}</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>In Progress</h2>
+    <div
+      cdkDropList
+      #inProgressList="cdkDropList"
+      [cdkDropListData]="inProgress()"
+      [cdkDropListConnectedTo]="[pendingList, completedList]"
+      class="card-list"
+      (cdkDropListDropped)="drop($event, 'InProgress')"
+    >
+      @for (task of inProgress(); track task.id) {
+        <div class="card" cdkDrag>
+          <button class="delete-btn" (click)="deleteTask(task, 'InProgress')">&times;</button>
+          <strong>{{ task.title }}</strong>
+          @if (task.description) {
+            <span class="description">{{ task.description }}</span>
+          }
+          @if (task.dueDate) {
+            <span class="due-date">Due: {{ task.dueDate | date:'mediumDate' }}</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>Completed</h2>
+    <div
+      cdkDropList
+      #completedList="cdkDropList"
+      [cdkDropListData]="completed()"
+      [cdkDropListConnectedTo]="[pendingList, inProgressList]"
+      class="card-list"
+      (cdkDropListDropped)="drop($event, 'Completed')"
+    >
+      @for (task of completed(); track task.id) {
+        <div class="card completed" cdkDrag>
+          <button class="delete-btn" (click)="deleteTask(task, 'Completed')">&times;</button>
+          <strong>{{ task.title }}</strong>
+          @if (task.description) {
+            <span class="description">{{ task.description }}</span>
+          }
+          @if (task.dueDate) {
+            <span class="due-date">Due: {{ task.dueDate | date:'mediumDate' }}</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

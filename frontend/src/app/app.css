@@ -1,0 +1,155 @@
+h1 {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+}
+
+.add-form input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-form input[type="text"],
+.add-form input:not([type]) {
+  flex: 1;
+  min-width: 120px;
+}
+
+.add-form button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.add-form button:hover {
+  background: #f0f0f0;
+}
+
+.board {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  font-family: sans-serif;
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+}
+
+.column h2 {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.card-list {
+  background: #f4f4f4;
+  border-radius: 6px;
+  min-height: 200px;
+  padding: 0.5rem;
+}
+
+.card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  word-break: break-word;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.card strong {
+  display: block;
+  padding-right: 1.5rem;
+}
+
+.card.completed strong {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.card .description {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.card .due-date {
+  display: block;
+  color: #888;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.delete-btn:hover {
+  color: #c00;
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.4;
+}
+
+.cdk-drag-animating {
+  transition: transform 200ms ease;
+}
+
+.card-list.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
+  transition: transform 200ms ease;
+}
+
+@media (max-width: 640px) {
+  .add-form {
+    flex-direction: column;
+  }
+
+  .add-form input,
+  .add-form button {
+    width: 100%;
+  }
+
+  .board {
+    flex-direction: column;
+  }
+
+  .card-list {
+    min-height: 100px;
+  }
+}

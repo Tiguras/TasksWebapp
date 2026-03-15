@@ -1,0 +1,6 @@
+frontend
+**/bin
+**/obj
+**/.angular
+**/node_modules
+**/dist
