@@ -16,6 +16,8 @@ export class App implements OnInit {
   private taskService = inject(TaskService);
   private toastr = inject(ToastrService);
 
+  showDialog = false;
+  editingTask: TaskItem | null = null;
   newTitle = '';
   newDescription = '';
   newDueDate = '';
@@ -36,10 +38,34 @@ export class App implements OnInit {
     });
   }
 
-  addTask() {
+  openCreate() {
+    this.editingTask = null;
+    this.newTitle = '';
+    this.newDescription = '';
+    this.newDueDate = '';
+    this.showDialog = true;
+  }
+
+  openEdit(task: TaskItem) {
+    this.editingTask = task;
+    this.newTitle = task.title;
+    this.newDescription = task.description ?? '';
+    this.newDueDate = task.dueDate ? task.dueDate.split('T')[0] : '';
+    this.showDialog = true;
+  }
+
+  saveTask() {
     const title = this.newTitle.trim();
     const dueDate = this.newDueDate;
-    if (!title || !dueDate || this.adding) return;
+    if (this.adding) return;
+    if (!title) {
+      this.toastr.error('Title is required', 'Missing Title');
+      return;
+    }
+    if (!dueDate) {
+      this.toastr.error('Due date is required', 'Missing Due Date');
+      return;
+    }
 
     const today = new Date().toISOString().split('T')[0];
     if (dueDate < today) {
@@ -48,19 +74,39 @@ export class App implements OnInit {
     }
 
     this.adding = true;
-    const req: CreateTaskRequest = {
-      title,
-      status: 'Pending',
-      description: this.newDescription.trim() || undefined,
-      dueDate,
-    };
-    this.newTitle = '';
-    this.newDescription = '';
-    this.newDueDate = '';
-    this.taskService.create(req).subscribe({
-      next: task => this.pending.update(list => [...list, task]),
-      complete: () => this.adding = false,
-    });
+
+    if (this.editingTask) {
+      const updated: TaskItem = {
+        ...this.editingTask,
+        title,
+        description: this.newDescription.trim() || null,
+        dueDate,
+      };
+      this.taskService.update(updated).subscribe({
+        next: () => {
+          this.loadTasks();
+          this.showDialog = false;
+        },
+        complete: () => this.adding = false,
+      });
+    } else {
+      const req: CreateTaskRequest = {
+        title,
+        status: 'Pending',
+        description: this.newDescription.trim() || undefined,
+        dueDate,
+      };
+      this.newTitle = '';
+      this.newDescription = '';
+      this.newDueDate = '';
+      this.taskService.create(req).subscribe({
+        next: task => {
+          this.pending.update(list => [...list, task]);
+          this.showDialog = false;
+        },
+        complete: () => this.adding = false,
+      });
+    }
   }
 
   deleteTask(task: TaskItem, status: TaskStatus) {

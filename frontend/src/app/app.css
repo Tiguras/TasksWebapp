@@ -1,71 +1,131 @@
 h1 {
   text-align: center;
-  font-family: sans-serif;
 }
 
-.add-form {
+/* Dialog */
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 }
 
-.add-form input {
+.dialog__content {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1.25rem;
+  width: 350px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dialog__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.dialog__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dialog__input,
+.dialog__textarea {
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: inherit;
+  resize: vertical;
 }
 
-.add-form input[type="text"],
-.add-form input:not([type]) {
-  flex: 1;
-  min-width: 120px;
+.dialog__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
 }
 
-.add-form button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+.dialog__btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #fff;
 }
 
-.add-form button:hover {
-  background: #f0f0f0;
+.dialog__btn:hover {
+  background: #e8e8e8;
 }
 
+.dialog__btn--cancel {
+  color: #666;
+}
+
+/* Board */
 .board {
   display: flex;
   gap: 1rem;
   padding: 0 1rem;
-  font-family: sans-serif;
 }
 
-.column {
+.board__column {
   flex: 1;
   min-width: 0;
 }
 
-.column h2 {
-  text-align: center;
-  margin-bottom: 0.75rem;
-  font-size: 1.1rem;
-}
-
-.card-list {
+.board__list {
+  position: relative;
   background: #f4f4f4;
   border-radius: 6px;
   min-height: 200px;
-  padding: 0.5rem;
+  padding: 1.75rem 0.5rem 0.5rem;
 }
 
+.board__label {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  background: #e8e8e8;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.board__add-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #666;
+  margin-left: 4px;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+.board__add-btn:hover {
+  color: #333;
+  background: #ddd;
+}
+
+/* Card */
 .card {
   position: relative;
   background: #fff;
   border: 1px solid #ddd;
+  border-left: 3px solid #4caf50;
   border-radius: 4px;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
@@ -77,31 +137,45 @@ h1 {
   cursor: grabbing;
 }
 
-.card strong {
+.card__title {
   display: block;
   padding-right: 1.5rem;
 }
 
-.card.completed strong {
+.card--completed .card__title {
   text-decoration: line-through;
   color: #999;
 }
 
-.card .description {
+.card__description {
   display: block;
   color: #666;
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
 
-.card .due-date {
+.card__due-date {
   display: block;
   color: #888;
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 
-.delete-btn {
+.card__edit-btn {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  color: #bbb;
+  padding: 0 2px;
+  vertical-align: middle;
+}
+
+.card__edit-btn:hover {
+  color: #333;
+}
+
+.card__delete-btn {
   position: absolute;
   top: 4px;
   right: 6px;
@@ -114,10 +188,11 @@ h1 {
   padding: 2px 4px;
 }
 
-.delete-btn:hover {
+.card__delete-btn:hover {
   color: #c00;
 }
 
+/* CDK Drag */
 .cdk-drag-preview {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -131,25 +206,16 @@ h1 {
   transition: transform 200ms ease;
 }
 
-.card-list.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
+.board__list.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
   transition: transform 200ms ease;
 }
 
 @media (max-width: 640px) {
-  .add-form {
-    flex-direction: column;
-  }
-
-  .add-form input,
-  .add-form button {
-    width: 100%;
-  }
-
   .board {
     flex-direction: column;
   }
 
-  .card-list {
+  .board__list {
     min-height: 100px;
   }
 }
