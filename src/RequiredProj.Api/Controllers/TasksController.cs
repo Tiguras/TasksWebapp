@@ -1,76 +1,52 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RequiredProj.Core.Data;
 using RequiredProj.Core.Entities;
+using RequiredProj.Core.Services;
 
 namespace RequiredProj.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TasksController(AppDbContext db) : ControllerBase
+public class TasksController(TaskService taskService) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<TaskItem>>> GetAll()
-        => await db.TaskItems.OrderByDescending(t => t.CreatedAt).ToListAsync();
+        => await taskService.GetAllAsync();
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<TaskItem>> Get(int id)
     {
-        TaskItem? item = await db.TaskItems.FindAsync(id);
-        return item is null ? NotFound() : item;
+        var result = await taskService.GetAsync(id);
+        return result.IsNotFound ? NotFound() : result.Value!;
     }
 
     [HttpPost]
     public async Task<ActionResult<TaskItem>> Create(TaskItem item)
     {
-        item.CreatedAt = DateTime.UtcNow;
-        if (item.DueDate.HasValue)
-        {
-            item.DueDate = DateTime.SpecifyKind(item.DueDate.Value, DateTimeKind.Utc);
-            if (item.DueDate.Value.Date < DateTime.UtcNow.Date)
-                return BadRequest(new { error = "Due date cannot be in the past" });
-        }
-        db.TaskItems.Add(item);
-        await db.SaveChangesAsync();
-        return Ok(item);
+        var result = await taskService.CreateAsync(item);
+        if (!result.IsSuccess)
+            return BadRequest(new { error = result.Error });
+        return Ok(result.Value);
     }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, TaskItem input)
     {
-        TaskItem? item = await db.TaskItems.FindAsync(id);
-        if (item is null) return NotFound();
-
-        item.Title = input.Title;
-        item.Description = input.Description;
-        item.Status = input.Status;
-        item.DueDate = input.DueDate.HasValue
-            ? DateTime.SpecifyKind(input.DueDate.Value, DateTimeKind.Utc)
-            : null;
-        await db.SaveChangesAsync();
-        return NoContent();
+        var result = await taskService.UpdateAsync(id, input);
+        return result.IsNotFound ? NotFound() : NoContent();
     }
 
     [HttpPatch("{id:int}/status")]
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateStatusRequest request)
     {
-        TaskItem? item = await db.TaskItems.FindAsync(id);
-        if (item is null) return NotFound();
-
-        item.Status = request.Status;
-        await db.SaveChangesAsync();
-        return NoContent();
+        var result = await taskService.UpdateStatusAsync(id, request.Status);
+        return result.IsNotFound ? NotFound() : NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var item = await db.TaskItems.FindAsync(id);
-        if (item is null) return NotFound();
-
-        db.TaskItems.Remove(item);
-        await db.SaveChangesAsync();
-        return NoContent();
+        var result = await taskService.DeleteAsync(id);
+        return result.IsNotFound ? NotFound() : NoContent();
     }
 }
 

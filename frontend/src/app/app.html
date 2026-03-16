@@ -1,95 +1,106 @@
-<h1>Tasks</h1>
+<div class="container">
+  <header class="header">
+    <h1>Tasks</h1>
+    <hr class="rule rule--thin" />
+  </header>
 
-@if (showDialog) {
-  <div class="dialog" (click)="showDialog = false">
-    <div class="dialog__content" (click)="$event.stopPropagation()">
-      <h2 class="dialog__title">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
-      <div class="dialog__form">
-        <input class="dialog__input" [(ngModel)]="newTitle" placeholder="Title" />
-        <textarea class="dialog__textarea" [(ngModel)]="newDescription" placeholder="Description (optional)" rows="3" maxlength="500"></textarea>
-        <input class="dialog__input" [(ngModel)]="newDueDate" type="date" />
-        <div class="dialog__actions">
-          <button class="dialog__btn dialog__btn--cancel" (click)="showDialog = false">Cancel</button>
-          <button class="dialog__btn" (click)="saveTask()" [disabled]="adding">{{ editingTask ? 'Save' : 'Add' }}</button>
+  @if (showDialog) {
+    <div class="dialog" (click)="showDialog = false">
+      <div class="dialog__content" (click)="$event.stopPropagation()">
+        <h2 class="dialog__title">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
+        <hr class="rule rule--medium" />
+        <div class="dialog__form">
+          <input class="dialog__input" [(ngModel)]="newTitle" placeholder="Title" />
+          <textarea class="dialog__textarea" [(ngModel)]="newDescription" placeholder="Description (optional)" rows="3" maxlength="500"></textarea>
+          <input class="dialog__input" [(ngModel)]="newDueDate" type="date" />
+          <div class="dialog__actions">
+            <button class="dialog__btn dialog__btn--cancel" (click)="showDialog = false">Cancel</button>
+            <button class="dialog__btn dialog__btn--primary" (click)="saveTask()" [disabled]="adding">{{ editingTask ? 'Save' : 'Add' }}</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-}
+  }
 
-<div class="board">
-  <div class="board__column">
-    <div
-      cdkDropList
-      #pendingList="cdkDropList"
-      [cdkDropListData]="pending()"
-      [cdkDropListConnectedTo]="[inProgressList, completedList]"
-      class="board__list"
-      (cdkDropListDropped)="drop($event, 'Pending')"
-    >
-      <span class="board__label">Pending <button class="board__add-btn" (click)="openCreate()" title="Create Task">+</button></span>
-      @for (task of pending(); track task.id) {
-        <div class="card" cdkDrag>
-          <button class="card__delete-btn" (click)="deleteTask(task, 'Pending')">&times;</button>
-          <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
-          @if (task.description) {
-            <span class="card__description">{{ task.description }}</span>
-          }
-          @if (task.dueDate) {
-            <span class="card__due-date">Due: {{ task.dueDate | date:'mediumDate' }}</span>
-          }
-        </div>
-      }
+  <div class="board">
+    <div class="board__column">
+      <div
+        cdkDropList
+        #pendingList="cdkDropList"
+        [cdkDropListData]="pending()"
+        [cdkDropListConnectedTo]="[inProgressList, completedList]"
+        class="board__list"
+        (cdkDropListDropped)="drop($event, 'Pending')"
+      >
+        <span class="board__label">Pending <button class="board__add-btn" (click)="openCreate()" title="Create Task">+</button></span>
+        @for (task of pending(); track task.id) {
+          <div class="card" cdkDrag>
+            <button class="card__delete-btn" (click)="deleteTask(task, 'Pending')">&times;</button>
+            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
+            @if (task.description) {
+              <span class="card__description">{{ task.description }}</span>
+            }
+            @if (task.dueDate) {
+              <span class="card__due-date">{{ task.dueDate | date:'mediumDate' }}</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="board__divider"></div>
+
+    <div class="board__column">
+      <div
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress()"
+        [cdkDropListConnectedTo]="[pendingList, completedList]"
+        class="board__list"
+        (cdkDropListDropped)="drop($event, 'InProgress')"
+      >
+        <span class="board__label">In Progress</span>
+        @for (task of inProgress(); track task.id) {
+          <div class="card" cdkDrag>
+            <button class="card__delete-btn" (click)="deleteTask(task, 'InProgress')">&times;</button>
+            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
+            @if (task.description) {
+              <span class="card__description">{{ task.description }}</span>
+            }
+            @if (task.dueDate) {
+              <span class="card__due-date">{{ task.dueDate | date:'mediumDate' }}</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="board__divider"></div>
+
+    <div class="board__column">
+      <div
+        cdkDropList
+        #completedList="cdkDropList"
+        [cdkDropListData]="completed()"
+        [cdkDropListConnectedTo]="[pendingList, inProgressList]"
+        class="board__list"
+        (cdkDropListDropped)="drop($event, 'Completed')"
+      >
+        <span class="board__label">Completed</span>
+        @for (task of completed(); track task.id) {
+          <div class="card card--completed" cdkDrag>
+            <button class="card__delete-btn" (click)="deleteTask(task, 'Completed')">&times;</button>
+            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
+            @if (task.description) {
+              <span class="card__description">{{ task.description }}</span>
+            }
+            @if (task.dueDate) {
+              <span class="card__due-date">{{ task.dueDate | date:'mediumDate' }}</span>
+            }
+          </div>
+        }
+      </div>
     </div>
   </div>
 
-  <div class="board__column">
-    <div
-      cdkDropList
-      #inProgressList="cdkDropList"
-      [cdkDropListData]="inProgress()"
-      [cdkDropListConnectedTo]="[pendingList, completedList]"
-      class="board__list"
-      (cdkDropListDropped)="drop($event, 'InProgress')"
-    >
-      <span class="board__label">In Progress</span>
-      @for (task of inProgress(); track task.id) {
-        <div class="card" cdkDrag>
-          <button class="card__delete-btn" (click)="deleteTask(task, 'InProgress')">&times;</button>
-          <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
-          @if (task.description) {
-            <span class="card__description">{{ task.description }}</span>
-          }
-          @if (task.dueDate) {
-            <span class="card__due-date">Due: {{ task.dueDate | date:'mediumDate' }}</span>
-          }
-        </div>
-      }
-    </div>
-  </div>
-
-  <div class="board__column">
-    <div
-      cdkDropList
-      #completedList="cdkDropList"
-      [cdkDropListData]="completed()"
-      [cdkDropListConnectedTo]="[pendingList, inProgressList]"
-      class="board__list"
-      (cdkDropListDropped)="drop($event, 'Completed')"
-    >
-      <span class="board__label">Completed</span>
-      @for (task of completed(); track task.id) {
-        <div class="card card--completed" cdkDrag>
-          <button class="card__delete-btn" (click)="deleteTask(task, 'Completed')">&times;</button>
-          <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
-          @if (task.description) {
-            <span class="card__description">{{ task.description }}</span>
-          }
-          @if (task.dueDate) {
-            <span class="card__due-date">Due: {{ task.dueDate | date:'mediumDate' }}</span>
-          }
-        </div>
-      }
-    </div>
-  </div>
 </div>
