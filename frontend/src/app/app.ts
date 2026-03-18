@@ -82,12 +82,10 @@ export class App implements OnInit {
         description: this.newDescription.trim() || null,
         dueDate,
       };
-      this.taskService.update(updated).subscribe({
-        next: () => {
-          this.loadTasks();
-          this.showDialog = false;
-        },
-        complete: () => this.adding = false,
+      this.taskService.update(updated).subscribe(() => {
+        this.adding = false;
+        this.loadTasks();
+        this.showDialog = false;
       });
     } else {
       const req: CreateTaskRequest = {
@@ -99,24 +97,27 @@ export class App implements OnInit {
       this.newTitle = '';
       this.newDescription = '';
       this.newDueDate = '';
-      this.taskService.create(req).subscribe({
-        next: task => {
-          this.pending.update(list => [...list, task]);
-          this.showDialog = false;
-        },
-        complete: () => this.adding = false,
+      this.taskService.create(req).subscribe(task => {
+        this.adding = false;
+        this.pending.update(list => [...list, task]);
+        this.showDialog = false;
       });
     }
   }
 
   deleteTask(task: TaskItem, status: TaskStatus) {
     this.taskService.delete(task.id).subscribe(() => {
-      if (status === 'Pending') this.pending.update(list => list.filter(t => t.id !== task.id));
-      else if (status === 'InProgress') this.inProgress.update(list => list.filter(t => t.id !== task.id));
-      else this.completed.update(list => list.filter(t => t.id !== task.id));
+      if (status === 'Pending') {
+        this.pending.update(list => list.filter(t => t.id !== task.id));
+      } else if (status === 'InProgress') {
+        this.inProgress.update(list => list.filter(t => t.id !== task.id));
+      } else {
+        this.completed.update(list => list.filter(t => t.id !== task.id));
+      }
     });
   }
 
+  // From https://angular.dev/guide/drag-drop
   drop(event: CdkDragDrop<TaskItem[]>, newStatus: TaskStatus) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);

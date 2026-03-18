@@ -32,8 +32,8 @@ public class TaskServiceTests
     public void GetAsync_with_nothing_in_db_returns_IsNotFound_as_true()
     {
         var result = _sut.GetAsync(1);
-        
-        Assert.That(result.Result.Value, Is.TypeOf<TaskItem>());
+
+        Assert.That(result.Result.Value, Is.Null);
         Assert.That(result.Result.IsNotFound, Is.True);
     }
 
@@ -145,10 +145,5 @@ public class TaskServiceTests
         var result = _sut.DeleteAsync(1);
 
         Assert.That(result.Result.IsNotFound, Is.True);
-    }
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
     }
 }

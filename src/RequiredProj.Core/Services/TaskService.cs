@@ -39,10 +39,15 @@ public class TaskService(AppDbContext db)
     public async Task<ServiceResult<TaskItem>> UpdateAsync(int id, TaskItem input)
     {
         TaskItem? item = await db.TaskItems.FindAsync(id);
-        if (item is null) return ServiceResult<TaskItem>.NotFound();
+        if (item is null)
+        {
+            return ServiceResult<TaskItem>.NotFound();
+        }
 
         if (input.DueDate.HasValue && input.DueDate.Value.Date < DateTime.UtcNow.Date)
+        {
             return ServiceResult<TaskItem>.Failure("Due date cannot be in the past");
+        }
 
         item.Title = input.Title;
         item.Description = input.Description;
@@ -58,7 +63,10 @@ public class TaskService(AppDbContext db)
     public async Task<ServiceResult<TaskItem>> UpdateStatusAsync(int id, TaskItemStatus status)
     {
         TaskItem? item = await db.TaskItems.FindAsync(id);
-        if (item is null) return ServiceResult<TaskItem>.NotFound();
+        if (item is null)
+        {
+            return ServiceResult<TaskItem>.NotFound();
+        }
 
         item.Status = status;
         await db.SaveChangesAsync();
@@ -69,7 +77,10 @@ public class TaskService(AppDbContext db)
     public async Task<ServiceResult<TaskItem>> DeleteAsync(int id)
     {
         TaskItem? item = await db.TaskItems.FindAsync(id);
-        if (item is null) return ServiceResult<TaskItem>.NotFound();
+        if (item is null)
+        {
+            return ServiceResult<TaskItem>.NotFound();
+        }
 
         db.TaskItems.Remove(item);
         await db.SaveChangesAsync();

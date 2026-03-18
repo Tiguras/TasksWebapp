@@ -16,7 +16,9 @@ public class TasksController(TaskService taskService) : ControllerBase
     public async Task<ActionResult<TaskItem>> Get(int id)
     {
         var result = await taskService.GetAsync(id);
-        return result.IsNotFound ? NotFound() : result.Value!;
+        return result.IsNotFound ? 
+            NotFound() : 
+            result.Value!;
     }
 
     [HttpPost]
@@ -24,7 +26,10 @@ public class TasksController(TaskService taskService) : ControllerBase
     {
         var result = await taskService.CreateAsync(item);
         if (!result.IsSuccess)
+        {
             return BadRequest(new { error = result.Error });
+        }
+        
         return Ok(result.Value);
     }
 
@@ -32,8 +37,16 @@ public class TasksController(TaskService taskService) : ControllerBase
     public async Task<IActionResult> Update(int id, TaskItem input)
     {
         var result = await taskService.UpdateAsync(id, input);
-        if (result.IsNotFound) return NotFound();
-        if (!result.IsSuccess) return BadRequest(new { error = result.Error });
+        if (result.IsNotFound)
+        {
+            return NotFound();
+        }
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new { error = result.Error });
+        }
+        
         return NoContent();
     }
 
@@ -41,14 +54,18 @@ public class TasksController(TaskService taskService) : ControllerBase
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateStatusRequest request)
     {
         var result = await taskService.UpdateStatusAsync(id, request.Status);
-        return result.IsNotFound ? NotFound() : NoContent();
+        return result.IsNotFound ? 
+            NotFound() : 
+            NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await taskService.DeleteAsync(id);
-        return result.IsNotFound ? NotFound() : NoContent();
+        return result.IsNotFound ? 
+            NotFound() : 
+            NoContent();
     }
 }
 
