@@ -6,21 +6,21 @@
 
   @if (showDialog) {
     <div class="dialog" (click)="showDialog = false">
-      <div class="dialog__content" (click)="$event.stopPropagation()">
-        <h2 class="dialog__title">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
+      <div class="dialog__content" role="dialog" aria-modal="true" aria-labelledby="dialog-title" (click)="$event.stopPropagation()">
+        <h2 class="dialog__title" id="dialog-title">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
         <div class="dialog__form">
           <div class="dialog__field">
-            <label class="dialog__label">Title</label>
-            <input class="dialog__input" [(ngModel)]="newTitle" placeholder="What needs to be done?" />
+            <label class="dialog__label" for="task-title">Title</label>
+            <input class="dialog__input" id="task-title" [(ngModel)]="newTitle" placeholder="What needs to be done?" />
           </div>
           <div class="dialog__field">
-            <label class="dialog__label">Description</label>
-            <textarea class="dialog__textarea" [(ngModel)]="newDescription" placeholder="Add context or details…" rows="3" maxlength="500"></textarea>
+            <label class="dialog__label" for="task-description">Description</label>
+            <textarea class="dialog__textarea" id="task-description" [(ngModel)]="newDescription" placeholder="Add context or details…" rows="3" maxlength="500"></textarea>
             <span class="dialog__char-count">{{ newDescription.length }} / 500</span>
           </div>
           <div class="dialog__field">
-            <label class="dialog__label">Due Date</label>
-            <input class="dialog__input" [(ngModel)]="newDueDate" type="date" />
+            <label class="dialog__label" for="task-due-date">Due Date</label>
+            <input class="dialog__input" id="task-due-date" [(ngModel)]="newDueDate" type="date" />
           </div>
           <div class="dialog__actions">
             <button class="dialog__btn dialog__btn--primary" (click)="saveTask()" [disabled]="adding">{{ editingTask ? 'Save Changes' : 'Add Task' }}</button>
@@ -41,11 +41,11 @@
         class="board__list"
         (cdkDropListDropped)="drop($event, 'Pending')"
       >
-        <span class="board__label">Pending <button class="board__add-btn" (click)="openCreate()" title="Create Task">+</button></span>
+        <span class="board__label">Pending <button class="board__add-btn" aria-label="Create task" (click)="openCreate()">+</button></span>
         @for (task of pending(); track task.id) {
           <div class="card" cdkDrag>
-            <button class="card__delete-btn" (click)="deleteTask(task, 'Pending')">&times;</button>
-            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
+            <button class="card__delete-btn" aria-label="Delete task" (click)="deleteTask(task, 'Pending')">&times;</button>
+            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" aria-label="Edit task" (click)="openEdit(task)">&#9998;</button></strong>
             @if (task.description) {
               <span class="card__description">{{ task.description }}</span>
             }
@@ -72,7 +72,7 @@
         @for (task of inProgress(); track task.id) {
           <div class="card" cdkDrag>
             <button class="card__delete-btn" (click)="deleteTask(task, 'InProgress')">&times;</button>
-            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
+            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" aria-label="Edit task" (click)="openEdit(task)">&#9998;</button></strong>
             @if (task.description) {
               <span class="card__description">{{ task.description }}</span>
             }
@@ -99,7 +99,7 @@
         @for (task of completed(); track task.id) {
           <div class="card card--completed" cdkDrag>
             <button class="card__delete-btn" (click)="deleteTask(task, 'Completed')">&times;</button>
-            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" (click)="openEdit(task)" title="Edit Task">&#9998;</button></strong>
+            <strong class="card__title">{{ task.title }} <button class="card__edit-btn" aria-label="Edit task" (click)="openEdit(task)">&#9998;</button></strong>
             @if (task.description) {
               <span class="card__description">{{ task.description }}</span>
             }
@@ -111,5 +111,4 @@
       </div>
     </div>
   </div>
-
 </div>

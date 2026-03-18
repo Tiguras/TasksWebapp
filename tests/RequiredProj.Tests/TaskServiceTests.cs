@@ -29,6 +29,7 @@ public class TaskServiceTests
     }
 
     [Test]
+    // Unit test naming convention from Unit Testing: Principles, Practices and Patterns by V. Khorikov
     public void GetAsync_with_nothing_in_db_returns_IsNotFound_as_true()
     {
         var result = _sut.GetAsync(1);

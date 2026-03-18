@@ -19,11 +19,11 @@
 }
 
 h1 {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #000000;
+  color: var(--color-ink);
   text-align: left;
   margin: 0 0 0.75rem;
 }
@@ -32,17 +32,12 @@ h1 {
 .rule {
   border: none;
   border-top-style: solid;
-  border-top-color: #000000;
+  border-top-color: var(--color-ink);
   margin: 0;
 }
 
 .rule--thin {
   border-top-width: 1px;
-}
-
-.rule--medium {
-  border-top-width: 2px;
-  margin-bottom: 1rem;
 }
 
 /* Dialog */
@@ -52,7 +47,7 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: var(--color-overlay);
   background-image: repeating-linear-gradient(
     -45deg,
     transparent,
@@ -67,9 +62,9 @@ h1 {
 }
 
 .dialog__content {
-  background: #FFFFFF;
-  border: 2px solid #000000;
-  border-left: 6px solid #000000;
+  background: var(--color-surface);
+  border: 2px solid var(--color-ink);
+  border-left: 6px solid var(--color-ink);
   border-radius: 0;
   padding: 2.5rem 2.25rem 2rem;
   width: 480px;
@@ -77,7 +72,7 @@ h1 {
 }
 
 .dialog__title {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 1.1rem;
   font-weight: 700;
   font-style: normal;
@@ -85,7 +80,7 @@ h1 {
   letter-spacing: 0.12em;
   line-height: 1;
   margin: 0 0 2rem;
-  color: #000000;
+  color: var(--color-ink);
 }
 
 .dialog__form {
@@ -100,12 +95,12 @@ h1 {
 }
 
 .dialog__label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 0.65rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: #525252;
+  color: var(--color-muted);
   margin-bottom: 0.4rem;
 }
 
@@ -113,31 +108,32 @@ h1 {
 .dialog__textarea {
   padding: 0.5rem 0.6rem;
   font-size: 1rem;
-  font-family: 'Source Serif 4', Georgia, serif;
-  border: 1px solid #000000;
+  font-family: var(--font-serif), serif;
+  border: 1px solid var(--color-ink);
   border-radius: 0;
   background: transparent;
-  color: #000000;
+  color: var(--color-ink);
   resize: vertical;
   width: 100%;
+  transition: box-shadow var(--duration-fast);
 }
 
 .dialog__input::placeholder,
 .dialog__textarea::placeholder {
-  color: #ADADAD;
+  color: var(--color-subtle);
   font-style: italic;
 }
 
 .dialog__input:focus,
 .dialog__textarea:focus {
   outline: none;
-  border-width: 2px;
+  box-shadow: 0 0 0 2px var(--color-ink);
 }
 
 .dialog__char-count {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 0.65rem;
-  color: #ADADAD;
+  color: var(--color-subtle);
   text-align: right;
   margin-top: 0.3rem;
   letter-spacing: 0.05em;
@@ -153,14 +149,14 @@ h1 {
 .dialog__btn {
   cursor: pointer;
   border-radius: 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: all 100ms;
+  transition: all var(--duration-fast);
 }
 
 .dialog__btn:focus-visible {
-  outline: 3px solid #000000;
+  outline: 3px solid var(--color-ink);
   outline-offset: 3px;
 }
 
@@ -168,14 +164,14 @@ h1 {
   width: 100%;
   padding: 0.85rem;
   font-size: 0.75rem;
-  background: #000000;
-  color: #FFFFFF;
-  border: 2px solid #000000;
+  background: var(--color-ink);
+  color: var(--color-surface);
+  border: 2px solid var(--color-ink);
 }
 
 .dialog__btn--primary:hover:not(:disabled) {
-  background: #FFFFFF;
-  color: #000000;
+  background: var(--color-surface);
+  color: var(--color-ink);
 }
 
 .dialog__btn--primary:disabled {
@@ -189,18 +185,17 @@ h1 {
   font-size: 0.7rem;
   background: transparent;
   border: none;
-  color: #ADADAD;
+  color: var(--color-subtle);
 }
 
 .dialog__btn--cancel:hover {
-  color: #000000;
+  color: var(--color-ink);
 }
 
 /* Board */
 .board {
   display: flex;
-  gap: 0;
-  border: 1px solid #000000;
+  border: 1px solid var(--color-ink);
   flex: 1;
 }
 
@@ -211,7 +206,7 @@ h1 {
 
 .board__divider {
   width: 1px;
-  background: #000000;
+  background: var(--color-ink);
 }
 
 .board__list {
@@ -226,52 +221,52 @@ h1 {
   left: 0;
   right: 0;
   padding: 0.4rem 0.75rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #000000;
-  border-bottom: 1px solid #E5E5E5;
+  color: var(--color-ink);
+  border-bottom: 1px solid var(--color-rule);
 }
 
 .board__add-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #525252;
+  color: var(--color-muted);
   margin-left: 4px;
   padding: 0 4px;
   border-radius: 0;
 }
 
 .board__add-btn:hover {
-  color: #000000;
+  color: var(--color-ink);
 }
 
 .board__add-btn:focus-visible {
-  outline: 3px solid #000000;
+  outline: 3px solid var(--color-ink);
   outline-offset: 2px;
 }
 
 /* Card */
 .card {
   position: relative;
-  background: #FFFFFF;
-  border: 1px solid #000000;
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink);
   border-radius: 0;
   padding: 1rem;
   margin-bottom: 0.75rem;
   cursor: grab;
   word-break: break-word;
-  transition: all 100ms;
+  transition: background-color var(--duration-fast);
 }
 
 .card:hover {
-  background: #F5F5F5;
+  background: var(--color-hover);
 }
 
 .card:active {
@@ -281,27 +276,27 @@ h1 {
 .card__title {
   display: block;
   padding-right: 1.5rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 1rem;
 }
 
 .card--completed .card__title,
 .card--completed .card__description {
   text-decoration: line-through;
-  color: #525252;
+  color: var(--color-muted);
 }
 
 .card__description {
   display: block;
-  color: #525252;
+  color: var(--color-muted);
   font-size: 1rem;
   margin-top: 0.35rem;
 }
 
 .card__due-date {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
-  color: #525252;
+  font-family: var(--font-mono), monospace;
+  color: var(--color-muted);
   font-size: 0.85rem;
   margin-top: 0.5rem;
   letter-spacing: 0.02em;
@@ -312,17 +307,17 @@ h1 {
   border: none;
   font-size: 0.75rem;
   cursor: pointer;
-  color: #525252;
+  color: var(--color-muted);
   padding: 0 2px;
   vertical-align: middle;
 }
 
 .card__edit-btn:hover {
-  color: #000000;
+  color: var(--color-ink);
 }
 
 .card__edit-btn:focus-visible {
-  outline: 3px solid #000000;
+  outline: 3px solid var(--color-ink);
   outline-offset: 2px;
 }
 
@@ -334,38 +329,38 @@ h1 {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #525252;
+  color: var(--color-muted);
   line-height: 1;
   padding: 2px 4px;
 }
 
 .card__delete-btn:hover {
-  color: #000000;
+  color: var(--color-ink);
 }
 
 .card__delete-btn:focus-visible {
-  outline: 3px solid #000000;
+  outline: 3px solid var(--color-ink);
   outline-offset: 2px;
 }
 
 /* CDK Drag */
 .cdk-drag-preview {
-  border: 2px solid #000000;
+  border: 2px solid var(--color-ink);
   border-radius: 0;
 }
 
 .cdk-drag-placeholder {
   opacity: 0.3;
-  border: 1px dashed #000000;
+  border: 1px dashed var(--color-ink);
   background: transparent;
 }
 
 .cdk-drag-animating {
-  transition: transform 100ms;
+  transition: transform var(--duration-fast);
 }
 
 .board__list.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
-  transition: transform 100ms;
+  transition: transform var(--duration-fast);
 }
 
 /* Responsive */
@@ -389,7 +384,7 @@ h1 {
   }
 
   .board__column {
-    border: 1px solid #000000;
+    border: 1px solid var(--color-ink);
   }
 
   .board__list {
