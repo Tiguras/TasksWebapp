@@ -19,10 +19,10 @@
 }
 
 h1 {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 2.5rem;
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: #000000;
   text-align: left;
   margin: 0 0 0.75rem;
@@ -52,7 +52,14 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.72);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 6px,
+    rgba(255, 255, 255, 0.015) 6px,
+    rgba(255, 255, 255, 0.015) 7px
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,74 +69,94 @@ h1 {
 .dialog__content {
   background: #FFFFFF;
   border: 2px solid #000000;
+  border-left: 6px solid #000000;
   border-radius: 0;
-  padding: 2rem;
-  width: 400px;
+  padding: 2.5rem 2.25rem 2rem;
+  width: 480px;
+  max-width: calc(100vw - 2rem);
 }
 
 .dialog__title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin: 0 0 0.75rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  margin: 0 0 2rem;
   color: #000000;
 }
 
 .dialog__form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
+}
+
+.dialog__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #525252;
+  margin-bottom: 0.4rem;
 }
 
 .dialog__input,
 .dialog__textarea {
-  padding: 0.6rem 0;
+  padding: 0.5rem 0.6rem;
   font-size: 1rem;
   font-family: 'Source Serif 4', Georgia, serif;
-  border: none;
-  border-bottom: 2px solid #000000;
+  border: 1px solid #000000;
   border-radius: 0;
   background: transparent;
   color: #000000;
   resize: vertical;
+  width: 100%;
 }
 
 .dialog__input::placeholder,
 .dialog__textarea::placeholder {
-  color: #525252;
+  color: #ADADAD;
   font-style: italic;
 }
 
 .dialog__input:focus,
 .dialog__textarea:focus {
   outline: none;
-  border-bottom-width: 4px;
+  border-width: 2px;
+}
+
+.dialog__char-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #ADADAD;
+  text-align: right;
+  margin-top: 0.3rem;
+  letter-spacing: 0.05em;
 }
 
 .dialog__actions {
   display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .dialog__btn {
-  padding: 0.6rem 1.5rem;
-  font-size: 0.8rem;
-  font-family: 'Source Serif 4', Georgia, serif;
+  cursor: pointer;
+  border-radius: 0;
+  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  cursor: pointer;
-  border: 2px solid #000000;
-  border-radius: 0;
-  background: transparent;
-  color: #000000;
   transition: all 100ms;
-}
-
-.dialog__btn:hover {
-  background: #000000;
-  color: #FFFFFF;
 }
 
 .dialog__btn:focus-visible {
@@ -138,24 +165,35 @@ h1 {
 }
 
 .dialog__btn--primary {
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 0.75rem;
   background: #000000;
   color: #FFFFFF;
+  border: 2px solid #000000;
 }
 
-.dialog__btn--primary:hover {
+.dialog__btn--primary:hover:not(:disabled) {
   background: #FFFFFF;
   color: #000000;
 }
 
+.dialog__btn--primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .dialog__btn--cancel {
-  color: #525252;
-  border-color: #E5E5E5;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.7rem;
+  background: transparent;
+  border: none;
+  color: #ADADAD;
 }
 
 .dialog__btn--cancel:hover {
-  border-color: #000000;
-  background: #000000;
-  color: #FFFFFF;
+  color: #000000;
 }
 
 /* Board */
@@ -243,11 +281,12 @@ h1 {
 .card__title {
   display: block;
   padding-right: 1.5rem;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
 }
 
-.card--completed .card__title {
+.card--completed .card__title,
+.card--completed .card__description {
   text-decoration: line-through;
   color: #525252;
 }

@@ -32,7 +32,9 @@ public class TasksController(TaskService taskService) : ControllerBase
     public async Task<IActionResult> Update(int id, TaskItem input)
     {
         var result = await taskService.UpdateAsync(id, input);
-        return result.IsNotFound ? NotFound() : NoContent();
+        if (result.IsNotFound) return NotFound();
+        if (!result.IsSuccess) return BadRequest(new { error = result.Error });
+        return NoContent();
     }
 
     [HttpPatch("{id:int}/status")]

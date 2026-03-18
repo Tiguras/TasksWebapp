@@ -1,23 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TaskStatus, TaskItem, CreateTaskRequest } from './task.models';
 
-export type TaskStatus = 'Pending' | 'InProgress' | 'Completed';
-
-export interface TaskItem {
-  id: number;
-  title: string;
-  description: string | null;
-  status: TaskStatus;
-  dueDate: string | null;
-  createdAt: string;
-}
-
-export interface CreateTaskRequest {
-  title: string;
-  description?: string;
-  status: TaskStatus;
-  dueDate?: string;
-}
+export type { TaskStatus, TaskItem, CreateTaskRequest };
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {

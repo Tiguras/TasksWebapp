@@ -8,14 +8,23 @@
     <div class="dialog" (click)="showDialog = false">
       <div class="dialog__content" (click)="$event.stopPropagation()">
         <h2 class="dialog__title">{{ editingTask ? 'Edit Task' : 'New Task' }}</h2>
-        <hr class="rule rule--medium" />
         <div class="dialog__form">
-          <input class="dialog__input" [(ngModel)]="newTitle" placeholder="Title" />
-          <textarea class="dialog__textarea" [(ngModel)]="newDescription" placeholder="Description (optional)" rows="3" maxlength="500"></textarea>
-          <input class="dialog__input" [(ngModel)]="newDueDate" type="date" />
+          <div class="dialog__field">
+            <label class="dialog__label">Title</label>
+            <input class="dialog__input" [(ngModel)]="newTitle" placeholder="What needs to be done?" />
+          </div>
+          <div class="dialog__field">
+            <label class="dialog__label">Description</label>
+            <textarea class="dialog__textarea" [(ngModel)]="newDescription" placeholder="Add context or details…" rows="3" maxlength="500"></textarea>
+            <span class="dialog__char-count">{{ newDescription.length }} / 500</span>
+          </div>
+          <div class="dialog__field">
+            <label class="dialog__label">Due Date</label>
+            <input class="dialog__input" [(ngModel)]="newDueDate" type="date" />
+          </div>
           <div class="dialog__actions">
+            <button class="dialog__btn dialog__btn--primary" (click)="saveTask()" [disabled]="adding">{{ editingTask ? 'Save Changes' : 'Add Task' }}</button>
             <button class="dialog__btn dialog__btn--cancel" (click)="showDialog = false">Cancel</button>
-            <button class="dialog__btn dialog__btn--primary" (click)="saveTask()" [disabled]="adding">{{ editingTask ? 'Save' : 'Add' }}</button>
           </div>
         </div>
       </div>

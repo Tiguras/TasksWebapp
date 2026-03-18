@@ -11,24 +11,28 @@ public class TaskService(AppDbContext db)
 
     public async Task<ServiceResult<TaskItem>> GetAsync(int id)
     {
-	// Should this check for negative numbers?
         TaskItem? item = await db.TaskItems.FindAsync(id);
-        return item is null ? ServiceResult<TaskItem>.NotFound() : ServiceResult<TaskItem>.Success(item);
+        ServiceResult<TaskItem> result = item is null ? 
+            ServiceResult<TaskItem>.NotFound() : 
+            ServiceResult<TaskItem>.Success(item);
+        
+        return result;
     }
 
     public async Task<ServiceResult<TaskItem>> CreateAsync(TaskItem item)
     {
-	// Check for null
-	// Should DueDate be able to be null?
         item.CreatedAt = DateTime.UtcNow;
         if (item.DueDate.HasValue)
         {
+            // Postgres requires DateTime to be explicitly UTC
             item.DueDate = DateTime.SpecifyKind(item.DueDate.Value, DateTimeKind.Utc);
             if (item.DueDate.Value.Date < DateTime.UtcNow.Date)
                 return ServiceResult<TaskItem>.Failure("Due date cannot be in the past");
         }
+        
         db.TaskItems.Add(item);
         await db.SaveChangesAsync();
+        
         return ServiceResult<TaskItem>.Success(item);
     }
 
@@ -37,6 +41,9 @@ public class TaskService(AppDbContext db)
         TaskItem? item = await db.TaskItems.FindAsync(id);
         if (item is null) return ServiceResult<TaskItem>.NotFound();
 
+        if (input.DueDate.HasValue && input.DueDate.Value.Date < DateTime.UtcNow.Date)
+            return ServiceResult<TaskItem>.Failure("Due date cannot be in the past");
+
         item.Title = input.Title;
         item.Description = input.Description;
         item.Status = input.Status;
@@ -44,6 +51,7 @@ public class TaskService(AppDbContext db)
             ? DateTime.SpecifyKind(input.DueDate.Value, DateTimeKind.Utc)
             : null;
         await db.SaveChangesAsync();
+        
         return ServiceResult<TaskItem>.Success(item);
     }
 
@@ -54,6 +62,7 @@ public class TaskService(AppDbContext db)
 
         item.Status = status;
         await db.SaveChangesAsync();
+        
         return ServiceResult<TaskItem>.Success(item);
     }
 
@@ -64,6 +73,7 @@ public class TaskService(AppDbContext db)
 
         db.TaskItems.Remove(item);
         await db.SaveChangesAsync();
+        
         return ServiceResult<TaskItem>.Success(item);
     }
 }
