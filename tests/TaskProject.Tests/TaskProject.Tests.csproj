@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\RequiredProj.Core\RequiredProj.Core.csproj" />
-    <ProjectReference Include="..\..\src\RequiredProj.Api\RequiredProj.Api.csproj" />
+    <ProjectReference Include="..\..\src\TaskProject.Core\TaskProject.Core.csproj" />
+    <ProjectReference Include="..\..\src\TaskProject.Api\TaskProject.Api.csproj" />
   </ItemGroup>
 
 </Project>

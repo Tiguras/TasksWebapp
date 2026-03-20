@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using RequiredProj.Core.Data;
+using TaskProject.Core.Data;
 
 #nullable disable
 
-namespace RequiredProj.Core.Data.Migrations
+namespace TaskProject.Core.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260315181714_AddDescriptionMaxLength")]
-    partial class AddDescriptionMaxLength
+    [Migration("20260315164314_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace RequiredProj.Core.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("RequiredProj.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("TaskProject.Core.Entities.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,8 +37,7 @@ namespace RequiredProj.Core.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("timestamp with time zone");

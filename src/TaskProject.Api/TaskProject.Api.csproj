@@ -12,10 +12,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.11" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RequiredProj.Core\RequiredProj.Core.csproj" />
+    <ProjectReference Include="..\TaskProject.Core\TaskProject.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\README.md">
+      <Link>README.md</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

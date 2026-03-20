@@ -1,4 +1,4 @@
-namespace RequiredProj.Core.Services;
+namespace TaskProject.Core.Services;
 
 public class ServiceResult<T>
 {

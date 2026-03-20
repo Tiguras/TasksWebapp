@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using RequiredProj.Core.Data;
-using RequiredProj.Core.Entities;
+using TaskProject.Core.Data;
+using TaskProject.Core.Entities;
 
-namespace RequiredProj.Core.Services;
+namespace TaskProject.Core.Services;
 
 public class TaskService(AppDbContext db)
 {
     public async Task<List<TaskItem>> GetAllAsync()
-        => await db.TaskItems.OrderByDescending(t => t.CreatedAt).ToListAsync();
+        // AsNoTracking tracking as tasks are readonly
+        => await db.TaskItems.AsNoTracking().OrderByDescending(t => t.CreatedAt).ToListAsync();
 
     public async Task<ServiceResult<TaskItem>> GetAsync(int id)
     {

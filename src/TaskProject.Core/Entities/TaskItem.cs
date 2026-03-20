@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RequiredProj.Core.Entities;
+namespace TaskProject.Core.Entities;
 
 public enum TaskItemStatus
 {
@@ -15,7 +15,8 @@ public class TaskItem
     
     public required string Title { get; set; }
     
-    [MaxLength(500)] public string? Description { get; set; }
+    [MaxLength(500)] 
+    public string? Description { get; set; }
     
     public TaskItemStatus Status { get; set; } = TaskItemStatus.Pending;
     

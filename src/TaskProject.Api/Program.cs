@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RequiredProj.Core.Data;
-using RequiredProj.Core.Services;
+using TaskProject.Core.Data;
+using TaskProject.Core.Services;
+using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 using (IServiceScope scope = app.Services.CreateScope())

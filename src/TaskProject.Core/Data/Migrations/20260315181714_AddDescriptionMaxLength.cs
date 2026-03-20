@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace RequiredProj.Core.Data.Migrations
+namespace TaskProject.Core.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddDescriptionMaxLength : Migration

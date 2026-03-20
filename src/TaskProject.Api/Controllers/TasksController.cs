@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RequiredProj.Core.Entities;
-using RequiredProj.Core.Services;
+using TaskProject.Core.Entities;
+using TaskProject.Core.Services;
 
-namespace RequiredProj.Api.Controllers;
+namespace TaskProject.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

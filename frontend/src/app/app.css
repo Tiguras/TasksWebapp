@@ -23,21 +23,13 @@ h1 {
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--color-ink);
-  text-align: left;
   margin: 0 0 0.75rem;
 }
 
 /* Rules */
 .rule {
-  border: none;
-  border-top-style: solid;
-  border-top-color: var(--color-ink);
+  border-top: 1px solid var(--color-ink);
   margin: 0;
-}
-
-.rule--thin {
-  border-top-width: 1px;
 }
 
 /* Dialog */
@@ -75,12 +67,10 @@ h1 {
   font-family: var(--font-mono), monospace;
   font-size: 1.1rem;
   font-weight: 700;
-  font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   line-height: 1;
   margin: 0 0 2rem;
-  color: var(--color-ink);
 }
 
 .dialog__form {
@@ -148,6 +138,7 @@ h1 {
 
 .dialog__btn {
   cursor: pointer;
+  width: 100%;
   border-radius: 0;
   font-family: var(--font-mono), monospace;
   text-transform: uppercase;
@@ -161,7 +152,6 @@ h1 {
 }
 
 .dialog__btn--primary {
-  width: 100%;
   padding: 0.85rem;
   font-size: 0.75rem;
   background: var(--color-ink);
@@ -180,7 +170,6 @@ h1 {
 }
 
 .dialog__btn--cancel {
-  width: 100%;
   padding: 0.5rem;
   font-size: 0.7rem;
   background: transparent;
@@ -257,7 +246,6 @@ h1 {
   position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-ink);
-  border-radius: 0;
   padding: 1rem;
   margin-bottom: 0.75rem;
   cursor: grab;
@@ -346,7 +334,6 @@ h1 {
 /* CDK Drag */
 .cdk-drag-preview {
   border: 2px solid var(--color-ink);
-  border-radius: 0;
 }
 
 .cdk-drag-placeholder {

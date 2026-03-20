@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RequiredProj.Core.Entities;
+using TaskProject.Core.Entities;
 
-namespace RequiredProj.Core.Data;
+namespace TaskProject.Core.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
